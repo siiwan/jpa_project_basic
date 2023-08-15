@@ -41,12 +41,10 @@ public class JpaMain {
             //em.persist(member);
             // update 종료
 
-            Member member = new Member(360L, "CCC");
+            Member member = new Member(460L, "new member");
             em.persist(member);
-
-
-
-
+            em.flush();
+            System.out.println("============================");
 
             // commit한 시점에 영속성 컨텍스트에 있는 쿼리가 실행
             tx.commit();
