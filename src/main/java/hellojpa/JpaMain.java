@@ -19,17 +19,35 @@ public class JpaMain {
         tx.begin();
 
         try {
-            //비영속 상태
-            Member member = new Member();
-            member.setId(100L);
-            member.setName("HelloJPA");
 
-            //영속 상태(db에 저장이 되지 않음)
-            System.out.println("====Before");
+//            //영속 엔티티의 동일성 보장 시작
+//            Member findMember1 = em.find(Member.class, 101L);
+//            Member findMember2 = em.find(Member.class, 101L);
+//            System.out.println("(findMember1 == findMember2) = " + (findMember1 == findMember2));
+//            //영속 엔티티의 동일성 보장 종료
+
+            // 영속
+//            Member member1 = new Member(350L, "AAA");
+//            Member member2 = new Member(360L, "BBB");
+//
+//            em.persist(member1);
+//            em.persist(member2);
+
+            // update 시작
+//            Member member = em.find(Member.class, 360L);
+//            member.setName("이름변경");
+
+            //아래 코드를 사용할 필요가 없다.
+            //em.persist(member);
+            // update 종료
+
+            Member member = new Member(360L, "CCC");
             em.persist(member);
-            //em.detach(member); //준영속 상태 (영속성컨텍스트에서 지움)
-            //em.remove(member); // 실제 객체를 삭제
-            System.out.println("====After");
+
+
+
+
+
             // commit한 시점에 영속성 컨텍스트에 있는 쿼리가 실행
             tx.commit();
         } catch (Exception e){
