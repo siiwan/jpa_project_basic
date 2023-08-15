@@ -19,22 +19,18 @@ public class JpaMain {
         tx.begin();
 
         try {
-//            Member member = new Member();
-//            member.setId(2L);
-//            member.setName("HelloB");
-//            em.persist(member);
-            Member findMember = em.find(Member.class, 1L);
-            System.out.println("findMember = " + findMember.getId());
-            System.out.println("findMember = " + findMember.getName());
-            //commit할 때 update
-            findMember.setName("HelloA");
+            //비영속 상태
+            Member member = new Member();
+            member.setId(100L);
+            member.setName("HelloJPA");
 
-            List<Member> result = em.createQuery("select m from Member m", Member.class).getResultList();
-
-            for (Member member : result) {
-                System.out.println("member = " + member.getName());
-            }
-
+            //영속 상태(db에 저장이 되지 않음)
+            System.out.println("====Before");
+            em.persist(member);
+            //em.detach(member); //준영속 상태 (영속성컨텍스트에서 지움)
+            //em.remove(member); // 실제 객체를 삭제
+            System.out.println("====After");
+            // commit한 시점에 영속성 컨텍스트에 있는 쿼리가 실행
             tx.commit();
         } catch (Exception e){
             tx.rollback();
