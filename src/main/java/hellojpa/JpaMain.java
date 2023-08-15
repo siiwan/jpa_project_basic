@@ -41,9 +41,10 @@ public class JpaMain {
             //em.persist(member);
             // update 종료
 
-            Member member = new Member(460L, "new member");
-            em.persist(member);
-            em.flush();
+            Member member1 = em.find(Member.class, 460L);
+            member1.setName("member");
+            em.detach(member1);
+
             System.out.println("============================");
 
             // commit한 시점에 영속성 컨텍스트에 있는 쿼리가 실행
