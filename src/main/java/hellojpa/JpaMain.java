@@ -20,33 +20,6 @@ public class JpaMain {
 
         try {
 
-//            //영속 엔티티의 동일성 보장 시작
-//            Member findMember1 = em.find(Member.class, 101L);
-//            Member findMember2 = em.find(Member.class, 101L);
-//            System.out.println("(findMember1 == findMember2) = " + (findMember1 == findMember2));
-//            //영속 엔티티의 동일성 보장 종료
-
-            // 영속
-//            Member member1 = new Member(350L, "AAA");
-//            Member member2 = new Member(360L, "BBB");
-//
-//            em.persist(member1);
-//            em.persist(member2);
-
-            // update 시작
-//            Member member = em.find(Member.class, 360L);
-//            member.setName("이름변경");
-
-            //아래 코드를 사용할 필요가 없다.
-            //em.persist(member);
-            // update 종료
-
-            Member member1 = em.find(Member.class, 460L);
-            member1.setName("member");
-            em.detach(member1);
-
-            System.out.println("============================");
-
             // commit한 시점에 영속성 컨텍스트에 있는 쿼리가 실행
             tx.commit();
         } catch (Exception e){
