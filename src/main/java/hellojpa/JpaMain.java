@@ -34,9 +34,11 @@ public class JpaMain {
             em.clear();
 
             Member findMember = em.find(Member.class, member.getId());
-            Team findMemberTeam = findMember.getTeam();
-
-            System.out.println("findMemberTeam.getName() = " + findMemberTeam.getName());
+            List<Member> members = findMember.getTeam().getMembers();
+            for (Member m : members) {
+                System.out.println("m.getUsername() = " + m.getUsername());
+                
+            }
 
 
             // commit한 시점에 영속성 컨텍스트에 있는 쿼리가 실행

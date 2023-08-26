@@ -18,7 +18,7 @@ public class Member {
     @ManyToOne
     //@ManyToOne(fetch = FetchType.LAZY) //쿼리 분리돼서 실행
     @JoinColumn(name = "TEAM_ID")
-    private Team team;
+    private Team team; //연관관계 주인, 외래키가 있는 곳이 주인임 즉 member가 주인
 
     public Long getId() {
         return id;
