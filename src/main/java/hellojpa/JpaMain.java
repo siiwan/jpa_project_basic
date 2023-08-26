@@ -20,12 +20,24 @@ public class JpaMain {
 
         try {
 
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
+
             Member member = new Member();
-            member.setName("C");
-            System.out.println("=============");
+            member.setUsername("member1");
+            member.setTeam(team);
+
             em.persist(member);
-            System.out.println("member.getId() = " + member.getId());
-            System.out.println("=============");
+
+            em.flush();
+            em.clear();
+
+            Member findMember = em.find(Member.class, member.getId());
+            Team findMemberTeam = findMember.getTeam();
+
+            System.out.println("findMemberTeam.getName() = " + findMemberTeam.getName());
+
 
             // commit한 시점에 영속성 컨텍스트에 있는 쿼리가 실행
             tx.commit();
