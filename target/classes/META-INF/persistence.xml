@@ -16,7 +16,13 @@
             <property name="hibernate.use_sql_comments" value="true"/>
 <!--            배치사이즈를 통해 commit 할 때 쿼리 수를 정할 수 있음-->
 <!--            <property name="hibernate.jdbc.batch_size" value="2"/>-->
+<!--            데이터베이스 자동 생성-->
+<!--            운영 장비에서는 절대 create, create-drop, update 사용하면 안됨-->
             <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
+            <!--<property name="hibernate.hbm2ddl.auto" value="create-drop" />-->
+            <!--<property name="hibernate.hbm2ddl.auto" value="update" />-->
+            <!--<property name="hibernate.hbm2ddl.auto" value="validate" />-->
+            <property name="hibernate.hbm2ddl.auto" value="create" />
         </properties>
     </persistence-unit>
 </persistence>
