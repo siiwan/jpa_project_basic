@@ -17,6 +17,11 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private List<Member> members = new ArrayList<>(); //조회만 가능, 수정은 안됨
 
+    public void addMember(Member member) {
+        member.setTeam(this);
+        members.add(member);
+    }
+
     public Long getId() {
         return id;
     }
@@ -40,4 +45,5 @@ public class Team {
     public void setMembers(List<Member> members) {
         this.members = members;
     }
+
 }

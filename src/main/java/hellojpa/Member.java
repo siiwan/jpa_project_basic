@@ -18,7 +18,7 @@ public class Member {
     @ManyToOne
     //@ManyToOne(fetch = FetchType.LAZY) //쿼리 분리돼서 실행
     @JoinColumn(name = "TEAM_ID")
-    private Team team; //연관관계 주인, 외래키가 있는 곳이 주인임 즉 member가 주인
+    private Team team; //연관관계 주인, 외래키가 있는 곳 member가 주인임
 
     public Long getId() {
         return id;
@@ -43,4 +43,10 @@ public class Member {
     public void setTeam(Team team) {
         this.team = team;
     }
+    //연관관계 편의메소드
+    //연관관계 편의메소드나 JPA상태를 변경하는 경우 setter 대신 메소드를 만들어 사용함.
+//    public void changeTeam(Team team) {
+//        this.team = team;
+//        team.getMembers().add(this); //this는 나 자신 (Member)
+//    }
 }
