@@ -20,6 +20,10 @@ public class Member {
     @JoinColumn(name = "TEAM_ID")
     private Team team; //연관관계 주인, 외래키가 있는 곳 member가 주인임
 
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker;
+
     public Long getId() {
         return id;
     }
