@@ -19,31 +19,19 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Movie movie = new Movie();
+            movie.setDirector("director");
+            movie.setActor("크리스토퍼");
+            movie.setName("오펜하이머");
+            movie.setPrice(10000);
 
-            Team team = new Team();
-            team.setName("TeamA");
-            //team.getMembers().add(member);
-            em.persist(team);
+            em.persist(movie);
 
-            Member member = new Member();
-            member.setUsername("member1");
-            em.persist(member);
+            em.flush();
+            em.clear();
 
-            //연관관계 편의 메소드
-            team.addMember(member);
-
-            //역방향(주인이 아닌 방향)만 연관관계 설정
-            //team.getMembers().add(member); 연관관계 편의 메소드 생성함. member엔티티에
-
-//            em.flush();
-//            em.clear();
-            Team findTeam = em.find(Team.class, team.getId());
-            List<Member> members = findTeam.getMembers();
-            System.out.println("=============");
-            for (Member m : members) {
-                System.out.println("m = " + m.getUsername());
-            }
-            System.out.println("=============");
+            Movie findMovie = em.find(Movie.class, movie.getId());
+            System.out.println("findMovie = " + findMovie);
 
             // commit한 시점에 영속성 컨텍스트에 있는 쿼리가 실행
             tx.commit();
