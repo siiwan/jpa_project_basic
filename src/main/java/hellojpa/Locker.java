@@ -12,6 +12,6 @@ public class Locker {
     private String name;
 
     //OneToOne 양방향 매핑
-    @OneToOne(mappedBy = "locker")
-    private Member member;
+    //@OneToOne(mappedBy = "locker")
+    //private Member member;
 }
