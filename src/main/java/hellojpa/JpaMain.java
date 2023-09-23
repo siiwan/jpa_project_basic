@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -19,21 +20,44 @@ public class JpaMain {
 
         try {
 
+            Team team1 = new Team();
+            team1.setName("teamA");
+            em.persist(team1);
+
+            Team team2 = new Team();
+            team2.setName("teamB");
+            em.persist(team2);
+
             Member member1 = new Member();
             member1.setUsername("member1");
+            member1.setTeam(team1);
             em.persist(member1);
 
             Member member2 = new Member();
             member2.setUsername("member2");
+            member2.setTeam(team2);
             em.persist(member2);
+
+//            Member member2 = new Member();
+//            member2.setUsername("member2");
+//            em.persist(member2);
 
             em.flush();
             em.clear();
 
-            Member m1 = em.find(Member.class, member1.getId());
-            Member m2 = em.getReference(Member.class, member2.getId());
+            //Member m1 = em.find(Member.class, member1.getId());
+            List<Member> members = em.createQuery("select m from Member m join fetch m.team", Member.class).getResultList();
 
-            logic(m1, m2);
+
+            System.out.println("===================");
+//            m1.getTeam();
+//            m1.getTeam().getName(); //초기화 (이때 데이터 조회 lazy인 경우)
+            System.out.println("===================");
+
+
+//            Member m1 = em.find(Member.class, member1.getId());
+//            Member m2 = em.getReference(Member.class, member2.getId());
+//            logic(m1, m2);
 
 
             // commit한 시점에 영속성 컨텍스트에 있는 쿼리가 실행

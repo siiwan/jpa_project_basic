@@ -16,7 +16,7 @@ public class Member extends BaseEntity{
 //    @Column(name = "TEAM_ID")
 //    private Long teamId;
     //단반향 연관관계 매핑
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     //@ManyToOne(fetch = FetchType.LAZY) //쿼리 분리돼서 실행
     @JoinColumn(name = "TEAM_ID")
     private Team team; //연관관계 주인, 외래키가 있는 곳 member가 주인임
