@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class Member extends BaseEntity{
+public class Member {
 
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
@@ -20,6 +20,28 @@ public class Member extends BaseEntity{
     //@ManyToOne(fetch = FetchType.LAZY) //쿼리 분리돼서 실행
     @JoinColumn(name = "TEAM_ID")
     private Team team; //연관관계 주인, 외래키가 있는 곳 member가 주인임
+
+    //기간
+    @Embedded
+    private Period workPeriod;
+
+    //주소
+    @Embedded
+    private Address homeAddress;
+
+    //주소
+    //한 엔티티에서 같은 값 타입을 사용
+    // 여러개면 @AttributeOverrides, 하나면 @AttributeOverride
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="city",
+                    column=@Column(name = "WORK_CITY")),
+            @AttributeOverride(name="street",
+                    column=@Column(name = "WORK_STREET")),
+            @AttributeOverride(name="zipcode",
+                    column=@Column(name = "WORK_ZIPCODE"))
+    })
+    private Address workAddress;
 
 //    @OneToOne
 //    @JoinColumn(name = "LOCKER_ID")
@@ -54,4 +76,20 @@ public class Member extends BaseEntity{
 //        this.team = team;
 //        team.getMembers().add(this); //this는 나 자신 (Member)
 //    }
+
+    public Period getWorkPeriod() {
+        return workPeriod;
+    }
+
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
 }
