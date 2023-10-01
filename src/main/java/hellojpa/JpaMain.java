@@ -19,12 +19,22 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setUsername("userName");
-            member.setHomeAddress(new Address("city", "street", "10000"));
-            member.setWorkPeriod(new Period());
+            Address address = new Address("city", "street", "10000");
 
-            em.persist(member);
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            member1.setHomeAddress(address);
+            em.persist(member1);
+
+            Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+
+            Member member2 = new Member();
+            member2.setUsername("member2");
+            member2.setHomeAddress(copyAddress);
+            em.persist(member2);
+
+            //member1, member2가 같은 address를 사용하는 경우 값이 동시 변경됨. 때문에 copyAddress로 member2에 넣음
+            member1.getHomeAddress().setCity("newCity");
 
             // commit한 시점에 영속성 컨텍스트에 있는 쿼리가 실행
             tx.commit();
