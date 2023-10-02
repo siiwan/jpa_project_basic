@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -19,22 +20,47 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Address address = new Address("city", "street", "10000");
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("homeCity", "street", "10000"));
 
-            Member member1 = new Member();
-            member1.setUsername("member1");
-            member1.setHomeAddress(address);
-            em.persist(member1);
+            member.getFavoriteFoods().add("밥");
+            member.getFavoriteFoods().add("계란");
+            member.getFavoriteFoods().add("닭가슴살");
 
-            Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+            member.getAddressHistory().add(new AddressEntity("old1", "street", "10000"));
+            member.getAddressHistory().add(new AddressEntity("old2", "street", "10000"));
 
-            Member member2 = new Member();
-            member2.setUsername("member2");
-            member2.setHomeAddress(copyAddress);
-            em.persist(member2);
+            em.persist(member);
 
-            //member1, member2가 같은 address를 사용하는 경우 값이 동시 변경됨. 때문에 copyAddress로 member2에 넣음
-            member1.getHomeAddress().setCity("newCity");
+            em.flush();
+            em.clear();
+
+
+            System.out.println("========= START =========");
+            Member findMember = em.find(Member.class, member.getId());
+//            Set<Address> addressHistory = findMember.getAddressHistory();
+//            for (Address address : addressHistory) {
+//                System.out.println("address.getCity() = " + address.getCity());
+//            }
+
+            Set<String> favoriteFoods = findMember.getFavoriteFoods();
+            for (String favoriteFood : favoriteFoods) {
+                System.out.println("favoriteFood = " + favoriteFood);
+            }
+
+            //homeCity -> newCity
+//            findMember.getHomeAddress().setCity("newCity");
+            Address homeAddress = findMember.getHomeAddress();
+            findMember.setHomeAddress(new Address("newCity", homeAddress.getStreet(), homeAddress.getZipcode()));
+
+            //치킨 -> 한식
+            findMember.getFavoriteFoods().remove("닭가슴살");
+            findMember.getFavoriteFoods().remove("한식");
+            findMember.getFavoriteFoods().add("보충제");
+
+            findMember.getAddressHistory().remove(new AddressEntity("old1", "street", "10000"));
+            findMember.getAddressHistory().add(new AddressEntity("newCity1", "street", "10000"));
 
             // commit한 시점에 영속성 컨텍스트에 있는 쿼리가 실행
             tx.commit();
